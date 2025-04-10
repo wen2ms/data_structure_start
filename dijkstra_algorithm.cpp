@@ -4,6 +4,7 @@
 std::vector<int> dijkstra(const int n, const int e, const int source, const std::vector<std::vector<int>>& graph) {
     std::vector<int> distances(n + 1, INT_MAX);
     std::vector<bool> checked(n + 1, false);
+    std::vector<int> prev_nodes(n + 1);
 
     distances[source] = 0;
     for (int i = 1; i <= n; ++i) {
@@ -21,6 +22,7 @@ std::vector<int> dijkstra(const int n, const int e, const int source, const std:
             if (graph[minimum_node][j] > 0) {
                 if (minimum_distance + graph[minimum_node][j] < distances[j]) {
                     distances[j] = minimum_distance + graph[minimum_node][j];
+                    prev_nodes[j] = minimum_node;
                 }
             }
         }
