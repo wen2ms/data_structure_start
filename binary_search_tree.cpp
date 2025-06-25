@@ -14,6 +14,10 @@ class BST {
   public:
     BST() : root_(nullptr) {}
 
+    ~BST() {
+        destory(root_);
+    }
+
     void insert(int val) {
         root_ = insert(root_, val);
     }
@@ -105,6 +109,17 @@ class BST {
         }
 
         return node;
+    }
+
+    void destory(TreeNode* root) {
+        if (root == nullptr) {
+            return;
+        }
+
+        destory(root->left);
+        destory(root->right);
+
+        delete root;
     }
 
     TreeNode* root_;
