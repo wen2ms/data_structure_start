@@ -1,34 +1,32 @@
 #include <iostream>
 #include <vector>
 
-// O(nlog(n))
-void quick_sort(std::vector<int>& vec, int left, int right) {
+// Best: O(nlog(n)) [3, 1, 4, 2, 5]
+// Worst: O(n^2) [5, 4, 3, 2, 1]
+// Average: O(nlog(n))
+// Stable: false [[2, 2, 1]
+
+void quick_sort(std::vector<int>& nums, int left, int right) {
     if (left < right) {
         int i = left, j = right;
-
-        int x = vec[left];
+        int pivot = nums[left];
+        
         while (i < j) {
-            while (i < j && vec[j] >= x) {
+            while (i < j && nums[j] >= pivot) {
                 --j;
             }
 
-            if (i < j) {
-                vec[i++] = vec[j];
-            }
-
-            while (i < j && vec[i] < x) {
+            while (i < j && nums[i] <= pivot) {
                 ++i;
             }
 
-            if (i < j) {
-                vec[j--] = vec[i];
-            }
+            std::swap(nums[i], nums[j]);
         }
 
-        vec[i] = x;
+        std::swap(nums[left], nums[i]);
 
-        quick_sort(vec, left, i - 1);
-        quick_sort(vec, i + 1, right);
+        quick_sort(nums, left, i - 1);
+        quick_sort(nums, i + 1, right);
     }
 }
 

@@ -2,19 +2,19 @@
 #include <queue>
 #include <vector>
 
-std::vector<int> topological_sort(int n, const std::vector<std::vector<int>>& graph) {
-    std::vector<int> indegree(n);
-    std::vector<int> top_order;
+std::vector<int> topological_sort(int n, const std::vector<std::vector<int>>& adjacent) {
+    std::vector<int> indegrees(n);
+    std::vector<int> topo_order;
 
     for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < graph[i].size(); ++j) {
-            indegree[graph[i][j]]++;
+        for (int j = 0; j < adjacent[i].size(); ++j) {
+            ++indegrees[adjacent[i][j]];
         }
     }
 
     std::queue<int> zero_nodes;
     for (int i = 0; i < n; ++i) {
-        if (indegree[i] == 0) {
+        if (indegrees[i] == 0) {
             zero_nodes.push(i);
         }
     }
@@ -23,22 +23,22 @@ std::vector<int> topological_sort(int n, const std::vector<std::vector<int>>& gr
         int index = zero_nodes.front();
 
         zero_nodes.pop();
-        top_order.push_back(index);
+        topo_order.push_back(index);
 
-        for (int neighbor : graph[index]) {
-            indegree[neighbor]--;
+        for (int neighbor : adjacent[index]) {
+            --indegrees[neighbor];
 
-            if (indegree[neighbor] == 0) {
+            if (indegrees[neighbor] == 0) {
                 zero_nodes.push(neighbor);
             }
         }
     }
 
-    if (top_order.size() != n) {
+    if (topo_order.size() != n) {
         return std::vector<int>();
     }
 
-    return top_order;
+    return topo_order;
 }
 
 int main() {

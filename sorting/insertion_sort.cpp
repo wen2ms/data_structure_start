@@ -1,7 +1,11 @@
 #include <iostream>
 #include <vector>
 
-// O(n^2)
+// Best: O(n) [1, 2, 3, 4, 5]
+// Worst: O(n^2) [5, 4, 3, 2, 1]
+// Average: O(n^2)
+// Stable: true [1, 2, 3, 2, 4]
+
 void insertion_sort(std::vector<int>& vec) {
     int n = vec.size();
 

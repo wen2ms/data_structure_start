@@ -1,9 +1,9 @@
 #include <iostream>
-#include <unordered_map>
+#include <string>
 #include <vector>
 
 struct TrieNode {
-    std::unordered_map<char, TrieNode*> children;
+    TrieNode* children[26] = {nullptr};
     int count = 0;
 };
 
@@ -17,12 +17,15 @@ class Trie {
 
     void insert(const std::string& word) {
         TrieNode* node = root_;
+
         for (char ch : word) {
-            if (!node->children[ch]) {
-                node->children[ch] = new TrieNode;
+            int index = ch - 'a';
+
+            if (node->children[index] == nullptr) {
+                node->children[index] = new TrieNode;
             }
 
-            node = node->children[ch];
+            node = node->children[index];
             node->count++;
         }
     }
@@ -32,7 +35,9 @@ class Trie {
         std::string prefix;
 
         for (char ch : word) {
-            node = node->children[ch];
+            int index = ch - 'a';
+
+            node = node->children[index];
             prefix += ch;
 
             if (node->count == 1) {
@@ -45,8 +50,10 @@ class Trie {
 
   private:
     void free_node(TrieNode* node) {
-        for (auto& pair : node->children) {
-            free_node(pair.second);
+        for (TrieNode* child : node->children) {
+            if (child != nullptr) {
+                free_node(child);
+            }
         }
 
         delete node;
