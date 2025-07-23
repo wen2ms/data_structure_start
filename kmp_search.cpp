@@ -3,7 +3,7 @@
 #include <string>
 
 std::vector<int> build_pi(const std::string& pattern) {
-    int m = pattern.size();
+    int m = pattern.length();
     std::vector<int> pi(m, 0);
 
     for (int i = 1; i < m; ++i) {

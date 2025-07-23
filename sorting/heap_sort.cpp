@@ -1,6 +1,11 @@
 #include <iostream>
 #include <vector>
 
+// Best: O(nlog(n))
+// Worst: O(nlog(n))
+// Average: O(nlog(n))
+// Stable: false [[3, 2, 3, 1]
+
 void heapify(std::vector<int>& vec, int n, int i) {
     int largest = i;
     int left = 2 * i + 1;
@@ -30,6 +35,7 @@ void heap_sort(std::vector<int>& vec) {
 
     for (int i = n - 1; i > 0; --i) {
         std::swap(vec[0], vec[i]);
+
         heapify(vec, i, 0);
     }
 }

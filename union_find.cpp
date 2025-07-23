@@ -3,10 +3,8 @@
 
 class UnionFind {
   public:
-    UnionFind(int size) {
-        parents_.resize(size + 1);
-
-        for (int i = 1; i <= size; ++i) {
+    explicit UnionFind(int size) : parents_(size), ranks_(size) {
+        for (int i = 0; i < size; ++i) {
             parents_[i] = i;
         }
     }
@@ -19,15 +17,28 @@ class UnionFind {
         return parents_[index];
     }
 
-    void union_set(int node1, int node2) {
-        int node1_parent = find(node1);
-        int node2_parent = find(node2);
+    void unite(int node1, int node2) {
+        int root1 = find(node1);
+        int root2 = find(node2);
 
-        parents_[node1_parent] = node2_parent;
+        if (root1 == root2) {
+            return;
+        }
+
+        if (ranks_[root1] < ranks_[root2]) {
+            parents_[root1] = root2;
+        } else if (ranks_[root1] > ranks_[root2]) {
+            parents_[root2] = root1;
+        } else {
+            parents_[root1] = root2;
+
+            ++ranks_[root2]; 
+        }
     }
 
   private:
     std::vector<int> parents_;
+    std::vector<int> ranks_;
 };
 
 int main() {
@@ -39,7 +50,7 @@ int main() {
         int x, y;
         std::cin >> x >> y;
 
-        union_find.union_set(x, y);
+        union_find.unite(x, y);
     }
 
     int q;
