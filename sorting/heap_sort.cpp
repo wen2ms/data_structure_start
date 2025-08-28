@@ -6,45 +6,45 @@
 // Average: O(nlog(n))
 // Stable: false [[3, 2, 3, 1]
 
-void heapify(std::vector<int>& vec, int n, int i) {
-    int largest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
+void heapify(std::vector<int>& vec, int size, int index) {
+    int largest = index;
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
 
-    if (left < n && vec[left] > vec[largest]) {
+    if (left < size && vec[left] > vec[largest]) {
         largest = left;
     }
 
-    if (right < n && vec[right] > vec[largest]) {
+    if (right < size && vec[right] > vec[largest]) {
         largest = right;
     }
 
-    if (largest != i) {
-        std::swap(vec[i], vec[largest]);
+    if (largest != index) {
+        std::swap(vec[index], vec[largest]);
 
-        heapify(vec, n, largest);
+        heapify(vec, size, largest);
     }
 }
 
 void heap_sort(std::vector<int>& vec) {
-    int n = vec.size();
+    int size = vec.size();
 
-    for (int i = n / 2 - 1; i >= 0; --i) {
-        heapify(vec, n, i);
+    for (int i = size / 2 - 1; i >= 0; --i) {
+        heapify(vec, size, i);
     }
 
-    for (int i = n - 1; i > 0; --i) {
+    for (int i = size - 1; i > 0; --i) {
         std::swap(vec[0], vec[i]);
 
         heapify(vec, i, 0);
     }
 }
 
-void print_vec(const std::vector<int>& vec) {
+void print(const std::vector<int>& vec) {
     for (const auto& item : vec) {
         std::cout << item << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 int main() {
@@ -56,9 +56,9 @@ int main() {
     heap_sort(case_2);
     heap_sort(case_3);
 
-    print_vec(case_1);
-    print_vec(case_2);
-    print_vec(case_3);
+    print(case_1);
+    print(case_2);
+    print(case_3);
 
     return 0;
 }

@@ -1,28 +1,35 @@
 #include <iostream>
 #include <vector>
 
+// Best: O(n + k) [1, 2, 3, 4, 5]
+// Worst: O(n + k) [5, 4, 3, 2, 1]
+// Average: O(n + k)
+// Stable: false [1, 2, 3, 2, 4]
+
 void counting_sort(std::vector<int>& nums) {
     int maximum = *std::max_element(nums.begin(), nums.end());
 
-    std::vector<int> count(maximum + 1, 0);
+    std::vector<int> count(maximum + 1);
 
     for (int num : nums) {
-        count[num]++;
+        ++count[num];
     }
 
     int index = 0;
     for (int i = 0; i <= maximum; ++i) {
-        while (count[i]-- > 0) {
-            nums[index++] = i;
+        while (count[i] > 0) {
+            nums[index] = i;
+            ++index;
+            --count[i];
         }
     } 
 }
 
-void print_vec(const std::vector<int>& vec) {
+void print(const std::vector<int>& vec) {
     for (int item : vec) {
         std::cout << item << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 int main() {
@@ -34,9 +41,9 @@ int main() {
     counting_sort(case_2);
     counting_sort(case_3);
 
-    print_vec(case_1);
-    print_vec(case_2);
-    print_vec(case_3);
+    print(case_1);
+    print(case_2);
+    print(case_3);
 
     return 0;
 }

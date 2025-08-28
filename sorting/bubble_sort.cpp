@@ -7,10 +7,10 @@
 // Stable: true [2, 1, 2]
 
 void bubble_sort(std::vector<int>& vec) {
-    int n = vec.size();
+    int size = vec.size();
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n - i - 1; ++j) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size - i - 1; ++j) {
             if (vec[j] > vec[j + 1]) {
                 std::swap(vec[j], vec[j + 1]);
             }
@@ -18,11 +18,11 @@ void bubble_sort(std::vector<int>& vec) {
     }
 }
 
-void print_vec(const std::vector<int>& vec) {
+void print(const std::vector<int>& vec) {
     for (const auto& item : vec) {
         std::cout << item << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 int main() {
@@ -34,9 +34,9 @@ int main() {
     bubble_sort(case_2);
     bubble_sort(case_3);
 
-    print_vec(case_1);
-    print_vec(case_2);
-    print_vec(case_3);
+    print(case_1);
+    print(case_2);
+    print(case_3);
 
     return 0;
 }

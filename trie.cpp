@@ -1,65 +1,47 @@
+#include <array>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
 struct TrieNode {
-    TrieNode* children[26] = {nullptr};
+    std::array<std::unique_ptr<TrieNode>, 26> children = {nullptr};
     int count = 0;
 };
 
 class Trie {
   public:
-    Trie() : root_(new TrieNode) {}
-
-    ~Trie() {
-        free_node(root_);
-    }
+    Trie() : root_(std::make_unique<TrieNode>()) {}
 
     void insert(const std::string& word) {
-        TrieNode* node = root_;
+        TrieNode* node = root_.get();
 
-        for (char ch : word) {
-            int index = ch - 'a';
-
+        for (char letter : word) {
+            int index = letter - 'a';
             if (node->children[index] == nullptr) {
-                node->children[index] = new TrieNode;
+                node->children[index] = std::make_unique<TrieNode>();
             }
-
-            node = node->children[index];
-            node->count++;
+            node = node->children[index].get();
+            ++node->count;
         }
     }
 
     std::string get_unique_prefix(const std::string& word) {
-        TrieNode* node = root_;
+        const TrieNode* node = root_.get();
         std::string prefix;
 
-        for (char ch : word) {
-            int index = ch - 'a';
-
-            node = node->children[index];
-            prefix += ch;
-
+        for (char letter : word) {
+            int index = letter - 'a';
+            node = node->children[index].get();
+            prefix += letter;
             if (node->count == 1) {
                 break;
             }
         }
-
         return prefix;
     }
 
-  private:
-    void free_node(TrieNode* node) {
-        for (TrieNode* child : node->children) {
-            if (child != nullptr) {
-                free_node(child);
-            }
-        }
-
-        delete node;
-    }
-
-    TrieNode* root_;
+    std::unique_ptr<TrieNode> root_;
 };
 
 int main() {
@@ -71,7 +53,7 @@ int main() {
     }
 
     for (const std::string& word : words) {
-        std::cout << trie.get_unique_prefix(word) << std::endl;
+        std::cout << trie.get_unique_prefix(word) << '\n';
     }
 
     return 0;

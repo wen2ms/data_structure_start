@@ -7,9 +7,9 @@
 // Stable: true [1, 2, 3, 2, 4]
 
 void insertion_sort(std::vector<int>& vec) {
-    int n = vec.size();
+    int size = vec.size();
 
-    for (int i = 1; i < n; ++i) {
+    for (int i = 1; i < size; ++i) {
         int key = vec[i];
         int j = i - 1;
 
@@ -22,11 +22,11 @@ void insertion_sort(std::vector<int>& vec) {
     }
 }
 
-void print_vec(const std::vector<int>& vec) {
+void print(const std::vector<int>& vec) {
     for (const auto& item : vec) {
         std::cout << item << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 int main() {
@@ -38,9 +38,9 @@ int main() {
     insertion_sort(case_2);
     insertion_sort(case_3);
 
-    print_vec(case_1);
-    print_vec(case_2);
-    print_vec(case_3);
+    print(case_1);
+    print(case_2);
+    print(case_3);
 
     return 0;
 }
