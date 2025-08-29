@@ -1,27 +1,25 @@
 #include <iostream>
 #include <vector>
 
-// Best: O(n) [1, 2, 3, 4, 5]
+// Best: O(n^2) [1, 2, 3, 4, 5]
 // Worst: O(n^2) [5, 4, 3, 2, 1]
 // Average: O(n^2)
-// Stable: true [2, 1, 2]
+// Stable: false [2, 3, 2, 1]
 
-void bubble_sort(std::vector<int>& vec) {
-    int size = vec.size();
-
+void selection_sort(std::vector<int>& nums) {
+    int size = nums.size();
     for (int i = 0; i < size - 1; ++i) {
-        bool swapped = false;
-        for (int j = 0; j < size - i - 1; ++j) {
-            if (vec[j] > vec[j + 1]) {
-                std::swap(vec[j], vec[j + 1]);
-                swapped = true;
+        int min_idx = i;
+        for (int j = i + 1; j < size; ++j) {
+            if (nums[j] < nums[min_idx]) {
+                min_idx = j;
             }
         }
-        if (!swapped) {
-            return;
+        if (min_idx != i) {
+            std::swap(nums[min_idx], nums[i]);
         }
     }
-}
+} 
 
 void print(const std::vector<int>& vec) {
     for (const auto& item : vec) {
@@ -35,9 +33,9 @@ int main() {
     std::vector<int> case_2 = {8, 2, 1, 3, 4};
     std::vector<int> case_3 = {1, 2, 3};
 
-    bubble_sort(case_1);
-    bubble_sort(case_2);
-    bubble_sort(case_3);
+    selection_sort(case_1);
+    selection_sort(case_2);
+    selection_sort(case_3);
 
     print(case_1);
     print(case_2);
