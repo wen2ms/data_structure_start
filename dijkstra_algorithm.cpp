@@ -66,7 +66,7 @@ int main() {
 
     std::vector<int> minimum_distances = dijkstra(source, graph);
 
-    for (int i =0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) {
         std::cout << minimum_distances[i] << ' ';
     }
     std::cout << std::endl;

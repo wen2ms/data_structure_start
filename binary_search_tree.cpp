@@ -1,128 +1,93 @@
 #include <iostream>
+#include <memory>
 
 struct TreeNode {
-    TreeNode() : value(-1), left(nullptr), right(nullptr) {}
-    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
-    TreeNode(int val, TreeNode* left, TreeNode* right) : value(val), left(left), right(right) {}
+    explicit TreeNode(int val) : val(val), left(nullptr), right(nullptr) {}
 
-    int value;
-    TreeNode* left;
-    TreeNode* right;
+    int val;
+    std::unique_ptr<TreeNode> left;
+    std::unique_ptr<TreeNode> right;
 };
 
 class BST {
   public:
     BST() : root_(nullptr) {}
 
-    ~BST() {
-        destory(root_);
-    }
-
     void insert(int val) {
-        root_ = insert(root_, val);
+        insert(root_, val);
     }
 
-    void inorder() {
+    void inorder() const {
         inorder(root_);
-
-        std::cout << std::endl;
+        std::cout << '\n';
     }
 
-    bool search(int val) {
-        return search(root_, val);
+    bool find(int val) const {
+        return find(root_, val);
     }
 
-    void remove(int val) {
-        root_ = remove(root_, val);
+    bool remove(int val) {
+        return remove(root_, val);
     }
 
   private:
-    TreeNode* insert(TreeNode* node, int val) {
+    void insert(std::unique_ptr<TreeNode>& node, const int val) {
         if (node == nullptr) {
-            return new TreeNode(val);
+            node = std::make_unique<TreeNode>(val);
+            return;
         }
-
-        if (val < node->value) {
-            node->left = insert(node->left, val);
-        } else if (val > node->value) {
-            node->right = insert(node->right, val);
+        if (val < node->val) {
+            insert(node->left, val);
+        } else if (val > node->val) {
+            insert(node->right, val);
         }
-
-        return node;
     }
 
-    void inorder(TreeNode* node) {
+    void inorder(const std::unique_ptr<TreeNode>& node) const {
         if (node == nullptr) {
             return;
         }
-
         inorder(node->left);
-
-        std::cout << node->value << ' ';
-
+        std::cout << node->val << ' ';
         inorder(node->right);
     }
 
-    bool search(TreeNode* node, int val) {
+    bool find(const std::unique_ptr<TreeNode>& node, const int val) const {
         if (node == nullptr) {
             return false;
         }
-
-        if (node->value == val) {
+        if (node->val == val) {
             return true;
         }
-
-        return val < node->value ? search(node->left, val) : search(node->right, val);
+        return node->val < val ? find(node->left, val) : find(node->right, val);
     }
 
-    TreeNode* find_min(TreeNode* node) {
-        while (node != nullptr && node->left != nullptr) {
-            node = node->left;
-        }
-
-        return node;
-    }
-
-    TreeNode* remove(TreeNode* node, int val) {
+    bool remove(std::unique_ptr<TreeNode>& node, const int val) {
         if (node == nullptr) {
-            return nullptr;
+            return false;
         }
-
-        if (val < node->value) {
-            node->left = remove(node->left, val);
-        } else if (val > node->value) {
-            node->right = remove(node->right, val);
+        if (node->val < val) {
+            return remove(node->right, val);
+        } else if (node->val > val) {
+            return remove(node->left, val);
         } else {
             if (node->left == nullptr) {
-                TreeNode* tmp = node->right;
-                delete node;
-                return tmp;
+                node = std::move(node->right);
             } else if (node->right == nullptr) {
-                TreeNode* tmp = node->left;
-                delete node;
-                return tmp;
+                node = std::move(node->left);
             } else {
-                TreeNode* min_right = find_min(node->right);
-                node->value = min_right->value;
-                node->right = remove(node->right, min_right->value);
+                TreeNode* right_min_node = node->right.get();
+                while (right_min_node != nullptr && right_min_node->left != nullptr) {
+                    right_min_node = right_min_node->left.get();
+                }
+                node->val = right_min_node->val;
+                remove(node->right, right_min_node->val);
             }
+            return true;
         }
-
-        return node;
     }
 
-    void destory(TreeNode* root) {
-        if (root == nullptr) {
-            return;
-        }
-
-        destory(root->left);
-        destory(root->right);
-
-        delete root;
-    }
-
-    TreeNode* root_;
+    std::unique_ptr<TreeNode> root_;
 };
 
 int main() {
@@ -139,7 +104,7 @@ int main() {
     bst.inorder();
 
     int key = 40;
-    std::cout << bst.search(key) << std::endl;
+    std::cout << bst.find(key) << '\n';
 
     bst.remove(30);
     bst.inorder();

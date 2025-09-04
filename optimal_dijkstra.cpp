@@ -25,8 +25,8 @@
 //     std::vector<int> heads;
 //     int current_index = 0;
 // };
-std::vector<int> dijkstra(const int source, const std::vector<std::vector<std::pair<int, int>>>& graph) {
-    int vertex_count = graph.size();
+std::vector<int> dijkstra(const int source, const std::vector<std::vector<std::pair<int, int>>>& adjancent) {
+    int vertex_count = adjancent.size();
     std::vector<int> distances(vertex_count, std::numeric_limits<int>::max());
     std::vector<bool> checked(vertex_count);
     std::vector<int> prev_nodes(vertex_count, -1);
@@ -37,7 +37,7 @@ std::vector<int> dijkstra(const int source, const std::vector<std::vector<std::p
     minimum_distances.emplace(distances[source], source);
 
     while (!minimum_distances.empty()) {
-        auto [minimum_distance, minimum_node] = minimum_distances.top();
+        const auto& [minimum_distance, minimum_node] = minimum_distances.top();
         minimum_distances.pop();
 
         if (checked[minimum_node]) {
@@ -55,7 +55,7 @@ std::vector<int> dijkstra(const int source, const std::vector<std::vector<std::p
         //     }
         // }
 
-        for (const auto& [neighbor, weight] : graph[minimum_node]) {
+        for (const auto& [neighbor, weight] : adjancent[minimum_node]) {
             if (minimum_distance + weight < distances[neighbor]) {
                 distances[neighbor] = minimum_distance + weight;
                 prev_nodes[neighbor] = minimum_node;
@@ -68,7 +68,7 @@ std::vector<int> dijkstra(const int source, const std::vector<std::vector<std::p
     // return distances;
 }
 
-std::vector<int> generate_path(const std::vector<int>& prev_node, int destination) {
+std::vector<int> generate_path(const std::vector<int>& prev_node, const int destination) {
     int current_node = destination;
     std::vector<int> path;
 
