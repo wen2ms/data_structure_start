@@ -5,7 +5,7 @@
 #include <vector>
 
 struct TrieNode {
-    std::array<std::unique_ptr<TrieNode>, 26> children = {nullptr};
+    std::array<std::unique_ptr<TrieNode>, 26> children{};
     int count = 0;
 };
 
