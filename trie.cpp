@@ -13,7 +13,7 @@ class Trie {
   public:
     Trie() : root_(std::make_unique<TrieNode>()) {}
 
-    void insert(const std::string& word) {
+    void insert(const std::string& word) const {
         TrieNode* node = root_.get();
 
         for (char letter : word) {
@@ -26,7 +26,7 @@ class Trie {
         }
     }
 
-    std::string get_unique_prefix(const std::string& word) {
+    std::string get_unique_prefix(const std::string& word) const {
         const TrieNode* node = root_.get();
         std::string prefix;
 
@@ -45,7 +45,7 @@ class Trie {
 };
 
 int main() {
-    std::vector<std::string> words = {"dog", "cat", "apple", "apricot", "fish"};
+    std::vector<std::string> words{"dog", "cat", "apple", "apricot", "fish"};
 
     Trie trie;
     for (const std::string& word : words) {
