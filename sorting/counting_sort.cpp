@@ -8,34 +8,31 @@
 
 void counting_sort(std::vector<int>& nums) {
     int maximum = *std::max_element(nums.begin(), nums.end());
-
-    std::vector<int> count(maximum + 1);
-
+    std::vector<int> counts(maximum + 1);
     for (int num : nums) {
-        ++count[num];
+        ++counts[num];
     }
-
     int index = 0;
     for (int i = 0; i <= maximum; ++i) {
-        while (count[i] > 0) {
+        while (counts[i] > 0) {
             nums[index] = i;
             ++index;
-            --count[i];
+            --counts[i];
         }
-    } 
+    }
 }
 
-void print(const std::vector<int>& vec) {
-    for (int item : vec) {
+void print(const std::vector<int>& nums) {
+    for (int item : nums) {
         std::cout << item << ' ';
     }
     std::cout << '\n';
 }
 
 int main() {
-    std::vector<int> case_1 = {7, 6, 5, 4, 3, 2};
-    std::vector<int> case_2 = {8, 2, 1, 3, 4};
-    std::vector<int> case_3 = {1, 2, 3};
+    std::vector<int> case_1{7, 6, 5, 4, 3, 2};
+    std::vector<int> case_2{8, 2, 1, 3, 4};
+    std::vector<int> case_3{1, 2, 3};
 
     counting_sort(case_1);
     counting_sort(case_2);

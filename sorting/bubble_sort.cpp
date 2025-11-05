@@ -6,14 +6,14 @@
 // Average: O(n^2)
 // Stable: true [2, 1, 2]
 
-void bubble_sort(std::vector<int>& vec) {
-    int size = vec.size();
+void bubble_sort(std::vector<int>& nums) {
+    int nums_count = nums.size();
 
-    for (int i = 0; i < size - 1; ++i) {
+    for (int i = 0; i < nums_count - 1; ++i) {
         bool swapped = false;
-        for (int j = 0; j < size - i - 1; ++j) {
-            if (vec[j] > vec[j + 1]) {
-                std::swap(vec[j], vec[j + 1]);
+        for (int j = 0; j < nums_count - i - 1; ++j) {
+            if (nums[j] > nums[j + 1]) {
+                std::swap(nums[j], nums[j + 1]);
                 swapped = true;
             }
         }
@@ -23,17 +23,17 @@ void bubble_sort(std::vector<int>& vec) {
     }
 }
 
-void print(const std::vector<int>& vec) {
-    for (const auto& item : vec) {
-        std::cout << item << ' ';
+void print(const std::vector<int>& nums) {
+    for (const int num : nums) {
+        std::cout << num << ' ';
     }
     std::cout << '\n';
 }
 
 int main() {
-    std::vector<int> case_1 = {7, 6, 5, 4, 3, 2};
-    std::vector<int> case_2 = {8, 2, 1, 3, 4};
-    std::vector<int> case_3 = {1, 2, 3};
+    std::vector<int> case_1{7, 6, 5, 4, 3, 2};
+    std::vector<int> case_2{8, 2, 1, 3, 4};
+    std::vector<int> case_3{1, 2, 3};
 
     bubble_sort(case_1);
     bubble_sort(case_2);

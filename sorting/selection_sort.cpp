@@ -7,31 +7,31 @@
 // Stable: false [2, 3, 2, 1]
 
 void selection_sort(std::vector<int>& nums) {
-    int size = nums.size();
-    for (int i = 0; i < size - 1; ++i) {
-        int min_idx = i;
-        for (int j = i + 1; j < size; ++j) {
-            if (nums[j] < nums[min_idx]) {
-                min_idx = j;
+    int nums_count = nums.size();
+    for (int i = 0; i < nums_count - 1; ++i) {
+        int min_index = i;
+        for (int j = i + 1; j < nums_count; ++j) {
+            if (nums[j] < nums[min_index]) {
+                min_index = j;
             }
         }
-        if (min_idx != i) {
-            std::swap(nums[min_idx], nums[i]);
+        if (i != min_index) {
+            std::swap(nums[i], nums[min_index]);
         }
     }
-} 
+}
 
-void print(const std::vector<int>& vec) {
-    for (const auto& item : vec) {
-        std::cout << item << ' ';
+void print(const std::vector<int>& nums) {
+    for (const int num : nums) {
+        std::cout << num << ' ';
     }
     std::cout << '\n';
 }
 
 int main() {
-    std::vector<int> case_1 = {7, 6, 5, 4, 3, 2};
-    std::vector<int> case_2 = {8, 2, 1, 3, 4};
-    std::vector<int> case_3 = {1, 2, 3};
+    std::vector<int> case_1{7, 6, 5, 4, 3, 2};
+    std::vector<int> case_2{8, 2, 1, 3, 4};
+    std::vector<int> case_3{1, 2, 3};
 
     selection_sort(case_1);
     selection_sort(case_2);
