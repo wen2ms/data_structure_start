@@ -1,15 +1,15 @@
 #include <iostream>
 #include <vector>
 
-std::vector<int> linear_sieve(int n) {
+std::vector<int> linear_sieve(int num) {
     std::vector<int> primes;
-    std::vector<bool> is_prime(n + 1, true);
-    for (int i = 2; i <= n; ++i) {
+    std::vector<bool> is_prime(num + 1, true);
+    for (int i = 2; i <= num; ++i) {
         if (is_prime[i]) {
             primes.push_back(i);
         }
         for (int prime : primes) {
-            if (i * prime > n) {
+            if (i * prime > num) {
                 break;
             }
             is_prime[i * prime] = false;

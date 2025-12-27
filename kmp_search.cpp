@@ -5,7 +5,6 @@
 std::vector<int> make_pi(const std::string& pattern) {
     int len = pattern.length();
     std::vector<int> pi(len);
-
     for (int i = 1; i < len; ++i) {
         int j = pi[i - 1];
         while (j > 0 && pattern[i] != pattern[j]) {
@@ -25,7 +24,6 @@ std::vector<int> kmp_search(const std::string& text, const std::string& pattern)
     int pattern_len = pattern.size();
     std::vector<int> pi = make_pi(pattern);
     std::vector<int> positions;
-
     int j = 0;
     for (int i = 0; i < text_len; ++i) {
         while (j > 0 && text[i] != pattern[j]) {

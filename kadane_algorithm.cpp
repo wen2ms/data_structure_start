@@ -1,14 +1,13 @@
 #include <iostream>
-#include <limits>
 #include <vector>
 
 int kadane(const std::vector<int>& nums) {
-    int maximum = std::numeric_limits<int>::min();
-    int current_sum = 0;
-
-    for (int num : nums) {
-        current_sum = std::max(num, current_sum + num);
-        maximum = std::max(current_sum, maximum);
+    int maximum = nums[0];
+    int curr_sum = nums[0];
+    int nums_count = nums.size();
+    for (int i = 1; i < nums_count; ++i) {
+        curr_sum = (curr_sum < 0 ? nums[i] : curr_sum + nums[i]);
+        maximum = std::max(curr_sum, maximum);
     }
     return maximum;
 }

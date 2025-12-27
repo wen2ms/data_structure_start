@@ -6,7 +6,7 @@
 // Worst: O(n^2) [5, 4, 3, 2, 1]
 // Average: O(n)
 
-int quick_select(std::vector<int>& nums, int left, int right, int nth) {
+int quick_select(std::vector<int>& nums, int left, int right, const int nth) {
     if (left == right) {
         return nums[left];
     }
