@@ -7,6 +7,7 @@
 struct TrieNode {
     std::array<std::unique_ptr<TrieNode>, 26> children{};
     int count = 0;
+    bool is_end_of_word = false;
 };
 
 class Trie {
@@ -24,6 +25,19 @@ class Trie {
             node = node->children[index].get();
             ++node->count;
         }
+        node->is_end_of_word = true;
+    }
+
+    bool search(const std::string& word) {
+        TrieNode* node = root_.get();
+        for (char letter : word) {
+            int index = letter - 'a';
+            if (node->children[index] == nullptr) {
+                return false;
+            }
+            node = node->children[index].get();
+        }
+        return node->is_end_of_word;
     }
 
     std::string get_unique_prefix(const std::string& word) const {
@@ -55,6 +69,8 @@ int main() {
     for (const std::string& word : words) {
         std::cout << trie.get_unique_prefix(word) << '\n';
     }
+    std::cout << trie.search("apple") << '\n';
+    std::cout << trie.search("app") << '\n';
 
     return 0;
 }

@@ -18,16 +18,15 @@ void quick_sort(int left, int right, std::vector<double>& nums) {
         int high = right;
         std::uniform_int_distribution<> distribution(left, right);
         int pivot_index = distribution(generator);
-        std::swap(nums[pivot_index], nums[left]);
         double pivot = nums[pivot_index];
         while (mid <= high) {
             if (nums[mid] < pivot) {
-                std::swap(nums[mid], nums[left]);
+                std::swap(nums[mid], nums[low]);
                 ++mid;
-                ++left;
+                ++low;
             } else if (nums[mid] > pivot) {
-                std::swap(nums[mid], nums[right]);
-                --right;
+                std::swap(nums[mid], nums[high]);
+                --high;
             } else {
                 ++mid;
             }

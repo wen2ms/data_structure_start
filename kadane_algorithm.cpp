@@ -13,16 +13,7 @@ int kadane(const std::vector<int>& nums) {
 }
 
 int main() {
-    int count;
-
-    std::cin >> count;
-
-    std::vector<int> input_integers(count);
-    for (int i = 0; i < count; ++i) {
-        std::cin >> input_integers[i];
-    }
-
-    std::cout << kadane(input_integers) << '\n';
+    std::cout << kadane({-2, 1, -3, 4, -1, 2, 1, -5, 4}) << '\n';
 
     return 0;
 }
