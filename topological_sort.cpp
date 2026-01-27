@@ -1,111 +1,63 @@
 #include <iostream>
+#include <queue>
 #include <vector>
-#include <stack>
 
-class Graph {
-  public:
-    struct Node {
-        int value;
-        Node* next = nullptr;
-    };
+std::vector<int> topological_sort(const int vertex_count, const std::vector<std::vector<int>>& adjacent) {
+    std::vector<int> indegrees(vertex_count);
+    std::vector<int> topo_order;
 
-    Graph() {}
-
-    Graph(int size) : size_(size) {
-        adjacency_list_.resize(size_, nullptr);
-    }
-
-    ~Graph() {
-        for (int i = 0; i < adjacency_list_.size(); ++i) {
-            delete adjacency_list_[i];
+    for (int i = 0; i < vertex_count; ++i) {
+        for (const int end : adjacent[i]) {
+            ++indegrees[end];
         }
     }
 
-    void add_edge(int start, int end) {
-        Node* node = new Node;
-
-        node->value = end;
-        node->next = adjacency_list_[start];
-
-        adjacency_list_[start] = node;
-    }
-
-    std::vector<Node*> adjacency_list_;
-    int size_;
-};
-
-struct SortNode {
-    enum DFS {
-        kVisiting,
-        kVisited,
-        kNotVisited
-    };
-
-    DFS status = kNotVisited;
-    Graph::Node* node = nullptr;
-};
-    
-bool dfs(int index, std::stack<int>& result, std::vector<SortNode>& nodes_list) {
-    if (nodes_list[index].status == SortNode::kVisiting) {
-        return false;
-    }
-
-    if (nodes_list[index].status == SortNode::kVisited) {
-        return true;
-    }
-
-    nodes_list[index].status = SortNode::kVisiting;
-    Graph::Node* node = nodes_list[index].node;
-    while (node != nullptr) {
-        if (!dfs(node->value, result, nodes_list)) {
-            return false;
+    std::queue<int> zero_nodes;
+    for (int i = 0; i < vertex_count; ++i) {
+        if (indegrees[i] == 0) {
+            zero_nodes.push(i);
         }
-        node = node->next;
-    }    
+    }
 
-    result.push(index);
-    nodes_list[index].status = SortNode::kVisited;
+    while (!zero_nodes.empty()) {
+        int index = zero_nodes.front();
 
-    return true;
+        zero_nodes.pop();
+        topo_order.push_back(index);
+
+        for (int neighbor : adjacent[index]) {
+            --indegrees[neighbor];
+
+            if (indegrees[neighbor] == 0) {
+                zero_nodes.push(neighbor);
+            }
+        }
+    }
+
+    if (topo_order.size() != vertex_count) {
+        return {};
+    }
+
+    return topo_order;
 }
 
 int main() {
-    int n, m;
+    int vertex_count = 6;
+    std::vector<std::vector<int>> adjacent(vertex_count);
 
-    std::cin >> n >> m;
+    adjacent[5].push_back(2);
+    adjacent[5].push_back(0);
+    adjacent[4].push_back(0);
+    adjacent[4].push_back(1);
+    adjacent[2].push_back(3);
+    adjacent[3].push_back(1);
 
-    Graph graph(n + 1);
+    std::vector<int> res = topological_sort(vertex_count, adjacent);
 
-    for (int i = 0; i < m; ++i) {
-        int x, y;
-        std::cin >> x >> y;
-
-        graph.add_edge(x, y);
+    for (int node : res) {
+        std::cout << node << ' ';
     }
-
-    std::vector<SortNode> nodes_list(n + 1);
-    for (int i = 1; i <= n; ++i) {
-        nodes_list[i].node = graph.adjacency_list_[i];
-    }
-
-    std::stack<int> result;
-    bool is_valid = true;
-    for (int i = 1; i <= n; ++i) {
-        if (!dfs(i, result, nodes_list)) {
-            std::cout << "Valid" << std::endl;
-            is_valid = false;
-            break;
-        }
-    }
-
-    if (is_valid) {
-        while (!result.empty()) {
-            std::cout << result.top() << ' ';
-            result.pop();
-        }
-        std::cout << std::endl;
-    }
+    std::cout << '\n';
 
     return 0;
 }
-
