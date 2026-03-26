@@ -2,7 +2,8 @@
 #include <queue>
 #include <vector>
 
-std::vector<int> topological_sort(const int vertex_count, const std::vector<std::vector<int>>& adjacent) {
+std::vector<int> topological_sort(const std::vector<std::vector<int>>& adjacent) {
+    int vertex_count = adjacent.size();
     std::vector<int> indegrees(vertex_count);
     std::vector<int> topo_order;
 
@@ -52,10 +53,10 @@ int main() {
     adjacent[2].push_back(3);
     adjacent[3].push_back(1);
 
-    std::vector<int> res = topological_sort(vertex_count, adjacent);
+    std::vector<int> topo = topological_sort(adjacent);
 
-    for (int node : res) {
-        std::cout << node << ' ';
+    for (int index : topo) {
+        std::cout << index << ' ';
     }
     std::cout << '\n';
 
