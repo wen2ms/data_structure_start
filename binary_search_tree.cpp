@@ -17,8 +17,8 @@ class BST {
         insert(root_, val);
     }
 
-    void inorder() const {
-        inorder(root_);
+    void inorder_traverse() const {
+        inorder_traverse(root_);
         std::cout << '\n';
     }
 
@@ -43,13 +43,13 @@ class BST {
         }
     }
 
-    void inorder(const std::unique_ptr<TreeNode>& node) const {
+    void inorder_traverse(const std::unique_ptr<TreeNode>& node) const {
         if (node == nullptr) {
             return;
         }
-        inorder(node->left);
+        inorder_traverse(node->left);
         std::cout << node->val << ' ';
-        inorder(node->right);
+        inorder_traverse(node->right);
     }
 
     bool find(const std::unique_ptr<TreeNode>& node, const int val) const {
@@ -59,7 +59,7 @@ class BST {
         if (node->val == val) {
             return true;
         }
-        return node->val < val ? find(node->left, val) : find(node->right, val);
+        return node->val < val ? find(node->right, val) : find(node->left, val);
     }
 
     bool remove(std::unique_ptr<TreeNode>& node, const int val) {
@@ -101,13 +101,13 @@ int main() {
     bst.insert(60);
     bst.insert(80);
 
-    bst.inorder();
+    bst.inorder_traverse();
 
     int key = 40;
     std::cout << bst.find(key) << '\n';
 
     bst.remove(30);
-    bst.inorder();
+    bst.inorder_traverse();
 
     return 0;
 }

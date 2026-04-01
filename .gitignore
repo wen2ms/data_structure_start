@@ -10,3 +10,6 @@
 # Foo files
 foo.cpp
 bar.cpp
+
+# Patch
+diff.patch
